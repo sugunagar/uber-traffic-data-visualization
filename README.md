@@ -4,7 +4,7 @@
 A web-based data visualization project analyzing Uber traffic patterns in **Bangalore city (2020–2022)**
 
 ## 📌 Live Demo
-👉 [Click here to view the project](https://sugunagar.github.io/uber-traffic-data-visualization/index.html)
+👉 [Click here to view the project](https://sugunagar.github.io/uber-traffic-data-visualization/)
 
 ---
 
