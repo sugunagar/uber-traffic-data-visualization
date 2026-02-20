@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Travel Time Comparison</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.8/jquery.csv.min.js"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+
+
+  <script type="text/javascript">
+
+
+    var rows = [];
+    var row1 = []
+    var row2 = []
+
+    var csvUrl = 'https://raw.githubusercontent.com/dheeraj1509/UberTrafficData/main/uber_data.csv';
+    $.get(csvUrl, function (csvString) {
+      var arrayData = $.csv.toArrays(csvString, { onParseValue: $.csv.hooks.castToScalar }, omitFirstRow = true);
+      for (var i = 1; i < arrayData.length; i++) {
+
+        rows.push(arrayData[i][1])
+        row1.push(arrayData[i][2])
+      }
+      data_set = new Set(rows)
+      data_set1 = new Set(row1)
+
+      console.log([data_set])
+      
+      const options = data_set;
+      const form = document.querySelector('form');
+      const dropdown = document.querySelector('#dropdown');
+      const resultDiv = document.querySelector('#result');
+      
+
+      options.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option;
+        optionElement.text = option;
+        dropdown.appendChild(optionElement);
+      });
+
+
+
+      const options1 = data_set1;
+      const dropdown1 = document.querySelector('#dropdown1');
+
+      options1.forEach(option1 => {
+        const optionElement1 = document.createElement('option');
+        optionElement1.value = option1;
+        optionElement1.text = option1;
+        dropdown1.appendChild(optionElement1);
+      });
+
+      const options2 = ["Early Moring(i.e 12:00 - 6:00)", "Morning(i.e 6:00 - 12:00)", "After Noon(i.e 12:00 - 18:00)", "Night(i.e 18:00 - 24:00)"];
+      const dropdown2 = document.querySelector('#dropdown2');
+
+      options2.forEach(option2 => {
+        const optionElement2 = document.createElement('option');
+        optionElement2.value = option2;
+        optionElement2.text = option2;
+        dropdown2.appendChild(optionElement2);
+      });
+
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const input1 = document.querySelector('#dropdown').value;
+        const input2 = document.querySelector('#dropdown1').value;
+        const input3 = document.querySelector('#dropdown2').value;
+        let x = Math.floor((Math.random() * 100) + 1);
+          let y = Math.floor((Math.random() * 100) + 1);
+        let resultText;
+        if (rows.includes(input1) && row1.includes(input2)) {
+          const index1 = rows.indexOf(input1);
+          const index2 = row1.indexOf(input2);
+          if (input3 == 'Early Moring(i.e 12:00 - 6:00)') {
+            result = (arrayData[index2 + 1][3] + arrayData[index1 + 1][3]) / 2
+            resultText = input1 +" -> "+arrayData[[index2 + x]][1] + " -> " + arrayData[[index2 + y]][1] +" -> "+ input2 ;
+            resultText += "(Total Travel time in this route -> )"
+       
+
+          }
+          else if (input3 == 'Morning(i.e 6:00 - 12:00)') {
+            result = (arrayData[index2 + 1][4] + arrayData[index1 + 1][4]) / 2
+            resultText = input1 +" -> "+arrayData[[index2 + x]][1] + " -> " + arrayData[[index2 + y]][1] +" -> "+ input2;
+            resultText += "(Total Travel time in this route -> )"+result
+
+          }
+          else if (input3 == "After Noon(i.e 12:00 - 18:00)") {
+            result = (arrayData[index2 + 1][5] + arrayData[index1 + 1][5]) / 2
+            
+            resultText = input1 +" -> "+arrayData[[index2 + x]][1] + " -> " + arrayData[[index2 + y]][1] +" -> "+ input2;
+            resultText += "(Total Travel time in this route -> )"+result
+
+          }
+          else {
+            result = (arrayData[index2 + 1][6] + arrayData[index1 + 1][6]) / 2
+            resultText = input1 +" -> "+arrayData[[index2 + x]][1] + " -> " + arrayData[[index2 + y]][1] +" -> "+ input2;
+            resultText += "(Total Travel time in this route -> )"+result
+
+          }
+
+          console.log(arrayData[index2][3])
+          console.log(arrayData[index1][3])
+      
+
+          resultText = input1 +" -> "+arrayData[[index2 + x]][1] + " -> " + arrayData[[index2 + y]][1] +" -> "+ input2;
+          resultText += "\n (Total Travel time in this route -> )"+result
+          console.log('Hello')
+        } else {
+          resultText = 'Please Enter the destination mentioned';
+        }
+
+        resultDiv.textContent = resultText;
+
+      });
+
+
+    });
+
+
+  </script>
+  <style>
+    .container,
+    .button_g {
+      margin-bottom: 25px;
+      margin-left: 25px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <header class="bg-white">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+      <div class="flex lg:flex-1">
+        <a href="#" class="-m-1.5 p-1.5">
+  
+          <p class="text-sm font-semibold leading-6 text-gray-900">Traffic Analysis</p>
+        </a>
+      </div>
+      <div class="flex lg:hidden">
+        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+          <span class="sr-only">Open main menu</span>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+      <div class="hidden lg:flex lg:gap-x-12">
+
+        <a href="../index.html"
+          class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Home</a>
+        <a href="./graph2_heatmap.html"
+          class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Heatmap
+          Analysis</a>
+        <a href="./graph3_line.html"
+          class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Area
+          Wise Time Analysis</a>
+          <a href="./graph1_bar.html"
+          class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Bar graph</a>
+      </div>
+
+    </nav>
+   
+  </header>
+
+  <div
+    class="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <p class="text-sm leading-6 text-gray-900">
+        <strong class="font-semibold">Version 2.0 </strong>Analysing the area wise traffic using the uber timing
+        analysis data
+      </p>
+      <a href="#"
+        class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Know
+        it <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="flex flex-1 justify-end">
+      <button type="button" class="-m-3 p-3 focus-visible:outline-offset-[-4px]">
+        <span class="sr-only">Dismiss</span>
+      </button>
+    </div>
+  </div>
+
+  <form>
+
+    <div class="container">
+      <label id="listbox-label" class="block text-sm font-medium leading-6 text-gray-900">Select the destination</label>
+      <div class="relative mt-2">
+
+
+        <select type="button"
+          class="relative w-50 cursor-default rounded-md bg-white py-2 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+          aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label" id="dropdown"></select>
+        <span class="flex items-center">
+        </span>
+
+        <span class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+
+        </span>
+        </button>
+
+      </div>
+    </div>
+
+
+
+    <div class="container">
+      <label id="listbox-label" class="block text-sm font-medium leading-6 text-gray-900">End Destination</label>
+      <div class="relative mt-2">
+
+
+        <select type="button"
+          class="relative w-50 cursor-default rounded-md bg-white py-2 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+          aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label" id="dropdown1"></select>
+        <span class="flex items-center">
+        </span>
+
+        <span class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+
+        </span>
+        </button>
+
+      </div>
+    </div>
+
+
+
+
+    <div class="container">
+      <label id="listbox-label" class="block text-sm font-medium leading-6 text-gray-900">Timings</label>
+      <div class="relative mt-2">
+
+
+        <select type="button"
+          class="relative w-50 cursor-default rounded-md bg-white py-2 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
+          aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label" id="dropdown2"></select>
+        <span class="flex items-center">
+        </span>
+
+        <span class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+
+        </span>
+        </button>
+
+      </div>
+    </div>
+
+
+    <button type="submit"
+      class="button_g rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+  </form>
+
+
+
+
+
+  <div>
+    <h1 class="mt-4 text-xl font-bold tracking-tight text-gray-900 sm:text-xl"  id="result" ></h1>
+  </div>
+
+</body>
+
+</html>

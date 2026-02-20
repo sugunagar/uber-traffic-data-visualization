@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Travel Time Comparison</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.8/jquery.csv.min.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+
+
+    <script type="text/javascript">
+
+
+        var rows = [];
+        var row1=[]
+            var row2=[]
+
+        var csvUrl = 'https://raw.githubusercontent.com/dheeraj1509/UberTrafficData/main/uber_data.csv';
+        $.get(csvUrl, function (csvString) {
+            var arrayData = $.csv.toArrays(csvString, { onParseValue: $.csv.hooks.castToScalar }, omitFirstRow = true);
+            const firstColumn = arrayData.map(arrayData => arrayData[1]);
+         
+
+            const groupedData = arrayData.reduce((acc, curr) => {
+                const key = curr[1]; 
+                const count = curr[3];
+                
+                
+                if (!acc[key]) {
+                
+                    acc[key] = {
+                        count: count,
+                        data: [curr]
+                    };
+                } else {
+             
+                    acc[key].count += count;
+                    acc[key].data.push(curr);
+                }
+                return acc;
+            }, {});
+
+        
+          
+            const dataArray = Object.entries(groupedData).map(([key, count]) => ({ key, count }));
+         
+            for(var i=1;i<dataArray.length;i++){
+                row1.push(dataArray[i]['key'])
+                row2.push(dataArray[i]['count']['count'])
+                
+            }
+           
+
+     
+     
+            
+new Chart("myChart", {
+  type: "line",
+  data: {
+    labels: row1,
+    datasets: [{
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "rgba(0,0,255,0.1)",
+      data: row2
+    }]
+  },
+  options: {
+    legend: {display: false},
+    scales: {
+      yAxes: [{ticks: {min: 300, max:800}}],
+    }
+  }
+});
+
+
+        });
+
+
+    </script>
+</head>
+
+<body>
+
+    <header class="bg-white">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+          <div class="flex lg:flex-1">
+            <a href="#" class="-m-1.5 p-1.5">
+             
+             <p class="text-sm font-semibold leading-6 text-gray-900">Traffic Analysis</p>
+            </a>
+          </div>
+          <div class="flex lg:hidden">
+            <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+              <span class="sr-only">Open main menu</span>
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+            </button>
+          </div>
+          <div class="hidden lg:flex lg:gap-x-12">
+    
+            <a href="../index.html" class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Home</a>
+            <a href="./graph2_heatmap.html" class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Heatmap Analysis</a>
+            <a href="./graph1_bar.html" class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Bar Graph</a>
+            <a href="./form.html" class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Let's Predict</a>
+        
+        </div>
+        
+        </nav>
+       
+      </header>
+    
+      <div
+        class="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
+    
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <p class="text-sm leading-6 text-gray-900">
+            <strong class="font-semibold">Version 2.0 </strong>Analysing the area wise traffic using the uber timing
+            analysis data
+          </p>
+          <a href="#"
+            class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Know
+            it <span aria-hidden="true">&rarr;</span></a>
+        </div>
+        <div class="flex flex-1 justify-end">
+          <button type="button" class="-m-3 p-3 focus-visible:outline-offset-[-4px]">
+            <span class="sr-only">Dismiss</span>
+          </button>
+        </div>
+      </div>
+
+    <canvas id="myChart" style="width:100%;max-width:auto"></canvas>
+
+</body>
+
+</html>
