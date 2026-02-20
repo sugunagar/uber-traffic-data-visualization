@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Travel Time Comparison</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+
+
+    <script type="text/javascript">
+     google.charts.load('current', {'packages':['corechart', 'calendar']});
+
+      google.charts.setOnLoadCallback(drawChart);
+      var rows = [];
+
+      function drawChart() {
+        
+        var csvUrl = 'https://raw.githubusercontent.com/dheeraj1509/UberTrafficData/main/uber_data.csv'; // Replace with your CSV file URL
+        $.get(csvUrl, function(csvString) {
+          var arrayData = $.csv.toArrays(csvString, {
+            onParseValue: $.csv.hooks.castToScalar,
+            skipLines: 1
+          });
+          var data = new google.visualization.DataTable(
+            ["date","Time"]
+          );
+        
+          
+          for (var i=1; i<arrayData.length; i++) {
+            console.table(arrayData[i][0])
+            var date = new Date(arrayData[i][0]);
+            var am_time = arrayData[i][3];
+            rows.push([date, am_time]);
+          }
+          console.log((am_time/arrayData.length)/60);
+          data.addRows(rows);
+      
+          var chart = new google.visualization.Calendar(document.getElementById('chart_div'));
+          var options = {
+            title: 'Heat Map chart which indicate that time taken to travel on the Early Morning',
+            height: 500,
+         
+          };
+          chart.draw(data, options);
+        });
+
+
+      }
+      google.charts.setOnLoadCallback(pmChart);
+      var rows = [];
+      function pmChart() {
+       
+        var csvUrl = 'https://raw.githubusercontent.com/dheeraj1509/UberTrafficData/main/uber_data.csv'; // Replace with your CSV file URL
+        $.get(csvUrl, function(csvString) {
+          var arrayData = $.csv.toArrays(csvString, {
+            onParseValue: $.csv.hooks.castToScalar,
+            skipLines: 1
+          });
+          var data = new google.visualization.DataTable();
+          console.table(arrayData);  
+      
+          data.addColumn({ type: 'date', id: 'Date' });
+          data.addColumn({ type: 'number', id: 'Am' });
+          
+          for (var i=1; i<arrayData.length; i++) {
+            console.table(arrayData[i][0])
+            var date = new Date(arrayData[i][0]);
+            var am_time = arrayData[i][4];
+            rows.push([date, am_time]);
+          }
+          console.log((am_time/arrayData.length)/60);
+          data.addRows(rows);
+      
+          var chart = new google.visualization.Calendar(document.getElementById('chart_div_1'));
+          var options = {
+            title: 'Heat Map chart which indicate that time taken to travel on Afternoon',
+            height: 500,
+            
+         
+          };
+          chart.draw(data, options);
+        });
+
+    }
+        google.charts.setOnLoadCallback(evChart);
+      var rows = [];
+      function evChart() {
+       
+        var csvUrl = 'https://raw.githubusercontent.com/dheeraj1509/UberTrafficData/main/uber_data.csv'; // Replace with your CSV file URL
+        $.get(csvUrl, function(csvString) {
+          var arrayData = $.csv.toArrays(csvString, {
+            onParseValue: $.csv.hooks.castToScalar,
+            skipLines: 1
+          });
+          var data = new google.visualization.DataTable();
+          console.table(arrayData);  
+      
+          data.addColumn({ type: 'date', id: 'Date' });
+          data.addColumn({ type: 'number', id: 'Am' });
+          
+          for (var i=1; i<arrayData.length; i++) {
+            console.table(arrayData[i][0])
+            var date = new Date(arrayData[i][0]);
+            var am_time = arrayData[i][5];
+            rows.push([date, am_time]);
+          }
+          console.log((am_time/arrayData.length)/60);
+          data.addRows(rows);
+      
+          var chart = new google.visualization.Calendar(document.getElementById('chart_div_2'));
+          var options = {
+            title: 'Heat Map chart which indicate that time taken to travel on Night',
+            height: 500,
+            colorAxis: {colors: ['#FF0000', '#00FF00']},
+            calendar:{
+    focusedCellColor: {
+      stroke: 'red',
+      strokeOpacity: 0.8,
+      strokeWidth: 3
+    }
+  }
+         
+          };
+          chart.draw(data,options);
+        });
+
+
+      }
+
+
+      google.charts.setOnLoadCallback(niChart);
+      var rows = [];
+      function niChart() {
+       
+        var csvUrl = 'https://raw.githubusercontent.com/dheeraj1509/UberTrafficData/main/uber_data.csv'; // Replace with your CSV file URL
+        $.get(csvUrl, function(csvString) {
+          var arrayData = $.csv.toArrays(csvString, {
+            onParseValue: $.csv.hooks.castToScalar,
+            skipLines: 1
+          });
+          var data = new google.visualization.DataTable();
+          console.table(arrayData);  
+      
+          data.addColumn({ type: 'date', id: 'Date' });
+          data.addColumn({ type: 'number', id: 'Am' });
+          
+          for (var i=1; i<arrayData.length; i++) {
+            console.table(arrayData[i][0])
+            var date = new Date(arrayData[i][0]);
+            var am_time = arrayData[i][6];
+            rows.push([date, am_time]);
+          }
+          console.log((am_time/arrayData.length)/60);
+          data.addRows(rows);
+      
+          var chart = new google.visualization.Calendar(document.getElementById('chart_div_3'));
+          var options = {
+            title: 'Heat Map chart which indicate that time taken to travel on the each day',
+            height: 500,
+            colorAxis: {colors: ['#FF0000', '#00FF00']},
+            calendar:{
+    focusedCellColor: {
+      stroke: 'red',
+      strokeOpacity: 0.8,
+      strokeWidth: 3
+    }
+  }
+         
+          };
+          chart.draw(data, options);
+        });
+
+
+      }
+    
+    </script>
+    <style>
+      .graph_gap{
+        margin-left: 15%;
+        margin-top: 50px;
+        
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bg-white">
+      <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+        <div class="flex lg:flex-1">
+          <a href="#" class="-m-1.5 p-1.5">
+           
+           <p class="text-sm font-semibold leading-6 text-gray-900">Traffic Analysis</p>
+          </a>
+        </div>
+        <div class="flex lg:hidden">
+          <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+            <span class="sr-only">Open main menu</span>
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </div>
+        <div class="hidden lg:flex lg:gap-x-12">
+  
+          <a href="../index.html" class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Home</a>
+          <a href="./graph2_heatmap.html" class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Heatmap Analysis</a>
+          <a href="./graph3_line.html" class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Area Wise Time Analysis</a>
+        </div>
+      
+      </nav>
+   
+    </header>
+  
+    <div
+      class="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
+  
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <p class="text-sm leading-6 text-gray-900">
+          <strong class="font-semibold">Version 2.0 </strong>Analysing the area wise traffic using the uber timing
+          analysis data
+        </p>
+        <a href="#"
+          class="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">Know
+          it <span aria-hidden="true">&rarr;</span></a>
+      </div>
+      <div class="flex flex-1 justify-end">
+        <button type="button" class="-m-3 p-3 focus-visible:outline-offset-[-4px]">
+          <span class="sr-only">Dismiss</span>
+        </button>
+      </div>
+    </div>
+  <div class="graph_gap">
+    <div id="chart_div"></div>
+    <div id="chart_div_1"></div>
+    <div id="chart_div_2"></div>
+    <div id="chart_div_3"></div>
+  </div>
+  </body>
+</html>
